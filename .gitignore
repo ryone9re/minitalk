@@ -1,0 +1,11 @@
+**/.DS_Store
+**/*.dSYM
+
+.vscode
+
+**/*.o
+**/*.a
+**/client
+**/server
+
+**/*.out*
