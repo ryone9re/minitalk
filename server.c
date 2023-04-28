@@ -6,7 +6,7 @@
 /*   By: rkurimot <rkurimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 04:36:15 by rkurimot          #+#    #+#             */
-/*   Updated: 2023/04/29 06:03:48 by rkurimot         ###   ########.fr       */
+/*   Updated: 2023/04/29 06:42:34 by rkurimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	signal_handler(int signal)
 {
-	static size_t	lit = 0;
-	static size_t	bit = 0;
+	static size_t	lit;
+	static size_t	bit;
 
 	if (signal == SIGUSR1)
 		lit |= (0b1 << bit);
@@ -29,10 +29,16 @@ void	signal_handler(int signal)
 
 int	main(void)
 {
-	pid_t	pid;
+	static struct sigaction	sa1;
+	static struct sigaction	sa2;
+	pid_t					pid;
 
-	signal(SIGUSR1, signal_handler);
-	signal(SIGUSR2, signal_handler);
+	sa1.sa_handler = signal_handler;
+	sa2.sa_handler = signal_handler;
+	sigaddset(&sa1.sa_mask, SIGUSR2);
+	sigaddset(&sa2.sa_mask, SIGUSR1);
+	sigaction(SIGUSR1, &sa1, NULL);
+	sigaction(SIGUSR2, &sa2, NULL);
 	pid = getpid();
 	ft_printf("PID: %d\n", pid);
 	while (1)
