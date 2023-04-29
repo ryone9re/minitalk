@@ -37,4 +37,4 @@ client: $(SUBDIRS) $(CLIENT_OBJS)
 server: $(SUBDIRS) $(SERVER_OBJS)
 	$(CC) -o $@ $(SERVER_OBJS) $(LIBS)
 
-.PHONY: all clean fclean re $(SUBDIRS) client server
+.PHONY: all clean fclean re
