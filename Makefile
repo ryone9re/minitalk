@@ -28,13 +28,12 @@ fclean: clean
 
 re: fclean all
 
-$(SUBDIRS):
-	$(MAKE) -C $@
+client: $(CLIENT_OBJS)
+	$(MAKE) -C $(SUBDIRS)
+	$(CC) $(CFLAGS) -o $@ $(CLIENT_OBJS) $(LIBS)
 
-client: $(SUBDIRS) $(CLIENT_OBJS)
-	$(CC) -o $@ $(CLIENT_OBJS) $(LIBS)
-
-server: $(SUBDIRS) $(SERVER_OBJS)
-	$(CC) -o $@ $(SERVER_OBJS) $(LIBS)
+server: $(SERVER_OBJS)
+	$(MAKE) -C $(SUBDIRS)
+	$(CC) $(CFLAGS) -o $@ $(SERVER_OBJS) $(LIBS)
 
 .PHONY: all clean fclean re
